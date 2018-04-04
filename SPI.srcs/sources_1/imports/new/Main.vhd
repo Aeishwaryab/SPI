@@ -36,15 +36,18 @@ entity Main is
 end Main;
 
 architecture SPI of Main is
-
+signal test: integer ; -- test signal
 begin
     process(SCLK, CSn, RSTn)
     begin
         if (RSTn = '0') then                      --asynchronous reset
-                            
+            test <= 0;                    
         elsif(CSn'event and CSn = '0') then       --detect falling edge of chip select             
-            if (SCLK'event and SCLK = '0') then   --detect falling edge of Serial Clock
-            
+            test<= 1;
+        end if;
+        if (test = 1) then    
+            if (SCLK'event and SCLK = '0') then   --detect falling edge of Serial Clock after falling edge of Chip select
+                test <= 2;
             end if;
         end if;
     end process;
