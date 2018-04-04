@@ -32,22 +32,32 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity Main is
-  Port (CSn, SCLK, RSTn : in STD_LOGIC );
+  Port ( SCLK : in STD_LOGIC;
+         CSn: inout STD_LOGIC := '1';
+         RSTn: in STD_LOGIC := '1');
 end Main;
 
 architecture SPI of Main is
-signal test: integer ; -- test signal
+signal test: integer := 0;
+signal count: integer := 0 ; -- test signal
 begin
     process(SCLK, CSn, RSTn)
     begin
         if (RSTn = '0') then                      --asynchronous reset
-            test <= 0;                    
+            test <= 0;
+            count<= 0;                    
         elsif(CSn'event and CSn = '0') then       --detect falling edge of chip select             
             test<= 1;
         end if;
         if (test = 1) then    
             if (SCLK'event and SCLK = '0') then   --detect falling edge of Serial Clock after falling edge of Chip select
-                test <= 2;
+                count <= count + 1;               --flag to take only 24 bits of data input  
+         --[MAIN EVENT AREA]-------                                       
+            end if;
+            if (count = 24) then
+                CSn <= '1' after 4ns;
+                test<=0;                          --RESET Chip select flag and wait for next faling edge
+                count <= 0;                       -- RESET bit count              
             end if;
         end if;
     end process;
