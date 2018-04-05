@@ -40,6 +40,7 @@ end Main;
 architecture SPI of Main is
 signal test: integer := 0;
 signal count: integer := 0 ; -- test signal
+signal bitDiff: integer := 0; -- counting how many bits are excess or less
 begin
     process(SCLK, CSn, RSTn)
     begin
@@ -54,12 +55,19 @@ begin
                 count <= count + 1;               --flag to take only 24 bits of data input  
          --[MAIN EVENT AREA]-------                                       
             end if;
-            if (count = 24) then
-                CSn <= '1' after 4ns;
-                test<=0;                          --RESET Chip select flag and wait for next faling edge
-                count <= 0;                       -- RESET bit count              
-            end if;
+           -- if (count = 24) then
+           --     CSn <= '1' after 4ns;
+           --     test<=0;                          --RESET Chip select flag and wait for next faling edge
+           --     count <= 0;                       -- RESET bit count              
+           -- end if;
+           if (CSn'event and CSn = '1') then
+                bitDiff <= count -24 ;
+                test<=0;                            --stop taking in serial data
+                count<=0;                           --reset count
+           end if;
+        end if;
+        if (bitDiff<0) then
+            -- reset the SPI register when all 24 bits have not been transfered 
         end if;
     end process;
-
 end SPI;
