@@ -20,7 +20,7 @@ entity Main is
          CSn: in STD_LOGIC := '1';
          RSTn: in STD_LOGIC := '1';
          SDI: in STD_LOGIC := '0';
-         SPIreg: inout STD_LOGIC_VECTOR := (others=>'0'));
+         SPIreg: inout STD_LOGIC_VECTOR(23 downto 0) := (others=>'0'));
 end Main;
 
 architecture SPI of Main is
