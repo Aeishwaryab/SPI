@@ -1,40 +1,26 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
+-- Project: Project Course on Drive Systems and Power Electronics 
+-- Course: Master of Science in Power Engineering
+-- University: Technical University of Munich
 -- Create Date: 04.04.2018 15:35:36
--- Design Name: 
+-- Design Name: SPI for DAC
 -- Module Name: Main - SPI
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
+-- Target Device : ZEDBoard
 -- 
 ----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
+use IEEE.NUMERIC_STD.ALL;
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
-
 entity Main is
   Port ( SCLK : in STD_LOGIC;
-         CSn: inout STD_LOGIC := '1';
-         RSTn: in STD_LOGIC := '1');
+         CSn: in STD_LOGIC := '1';
+         RSTn: in STD_LOGIC := '1';
+         SDI: in STD_LOGIC := '0';
+         SPIreg: inout STD_LOGIC_VECTOR := (others=>'0'));
 end Main;
 
 architecture SPI of Main is
