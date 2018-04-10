@@ -41,11 +41,6 @@ begin
                 count <= count + 1;               --flag to take only 24 bits of data input  
          --[MAIN EVENT AREA]-------                                       
             end if;
-           -- if (count = 24) then
-           --     CSn <= '1' after 4ns;
-           --     test<=0;                          --RESET Chip select flag and wait for next faling edge
-           --     count <= 0;                       -- RESET bit count              
-           -- end if;
            if (CSn'event and CSn = '1') then
                 bitDiff <= count -24 ;
                 test<=0;                            --stop taking in serial data
